@@ -24,4 +24,11 @@ app.post('/add-post', (req, res) => {
     res.send(obj);
 });
 
+app.delete('/delete-post', (req, res) => {
+    const obj = JSON.parse(fs.readFileSync('./public/db.json', 'utf8'));
+    obj.posts = obj.posts.filter(post => post.id !== req.body.id);
+    fs.writeFileSync('./public/db.json', JSON.stringify(obj));
+    res.send(obj);
+});
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

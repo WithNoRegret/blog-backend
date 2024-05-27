@@ -26,6 +26,8 @@ app.post('/add-post', (req, res) => {
 
 app.delete('/delete-post', (req, res) => {
     const obj = JSON.parse(fs.readFileSync('./public/db.json', 'utf8'));
+    if (obj.results === 0) return res.send(obj);
+    obj.results -= 1;
     obj.posts = obj.posts.filter(post => post.id !== req.body.id);
     fs.writeFileSync('./public/db.json', JSON.stringify(obj));
     res.send(obj);
